@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABOUT | IT HUB | WEBサイトを、自社の「資産」へ</title>
+    <link rel="icon" href="./images/favicon.png" type="image/png">
+
+    <!-- スタイル: Tailwind CSS & Google Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Noto+Sans+JP:wght@300;400;700;900&display=swap');
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #fff;
+        }
+
+        /* フェードインアニメーション */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* カスタムスクロールバー */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #000;
+        }
+    </style>
+</head>
+
+<body class="text-black selection:bg-black selection:text-white overflow-x-hidden">
+
+    <div id="root">
+        <!-- 読み込み中のスケルトン表示 -->
+        <div class="h-screen w-full flex items-center justify-center bg-white">
+            <div class="text-[10px] tracking-[0.5em] animate-pulse uppercase text-gray-400">Hub Initializing...</div>
+        </div>
+    </div>
+
+    <!-- ライブラリの読み込み -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- メインスクリプト -->
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // X (Twitter) アイコンのカスタムSVG
+        const XIcon = () => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+        );
+
+        const App = () => {
+            const [isScrolled, setIsScrolled] = useState(false);
+            const revealRefs = useRef([]);
+
+            useEffect(() => {
+                // Lucideアイコンの初期化
+                lucide.createIcons();
+
+                const handleScroll = () => {
+                    setIsScrolled(window.scrollY > 50);
+
+                    // スクロール検知によるアニメーション発火
+                    revealRefs.current.forEach((el) => {
+                        if (el) {
+                            const rect = el.getBoundingClientRect();
+                            if (rect.top < window.innerHeight * 0.9) {
+                                el.classList.add('active');
+                            }
+                        }
+                    });
+                };
+
+                window.addEventListener('scroll', handleScroll);
+                handleScroll(); // 初回実行
+
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            const addToRefs = (el) => {
+                if (el && !revealRefs.current.includes(el)) {
+                    revealRefs.current.push(el);
+                }
+            };
+
+            return (
+                <div className="min-h-screen">
+                    {/* Navigation */}
+                    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 px-6 py-4 md:px-12 flex justify-between items-center ${isScrolled ? 'bg-white/90 backdrop-blur-xl border-b border-gray-100 py-4 shadow-sm' : 'bg-transparent py-10'
+                        }`}>
+                        <a href="index.html" className="flex items-center">
+                            <img src="./images/logo.png" alt="IT HUB" className="h-10 md:h-14 w-auto -ml-3" />
+                        </a>
+
+                        <div className="flex items-center space-x-8 md:space-x-12">
+                            <div className="hidden lg:flex space-x-10 text-[10px] uppercase tracking-[0.4em] font-bold text-black">
+                                {['TOP', 'MNKR', 'ABOUT', 'WORKS', 'BLOG', 'CONTACT'].map((item) => (
+                                    <a key={item} href={item === 'ABOUT' ? '#' : item === 'WORKS' ? 'works.html' : item === 'BLOG' ? 'blog.html' : item === 'TOP' ? 'index.html' : 'index.html#' + item.toLowerCase()} className={`transition-opacity ${item === 'ABOUT' ? 'opacity-100 border-b border-black pb-1' : 'hover:opacity-30'}`}>{item}</a>
+                                ))}
+                            </div>
+                            <a href="https://x.com/" target="_blank" rel="noopener noreferrer" className="hover:opacity-40 transition-opacity">
+                                <XIcon />
+                            </a>
+                        </div>
+                    </nav>
+
+                    {/* Page Header */}
+                    <section className="relative pt-48 pb-20 px-6 md:px-12 bg-black text-white overflow-hidden">
+                        <div className="absolute inset-0 z-0 opacity-10 pointer-events-none mix-blend-screen">
+                            <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '60px 60px' }}></div>
+                        </div>
+                        <div className="max-w-6xl mx-auto relative z-10 text-center">
+                            <h1 className="text-6xl md:text-8xl font-black tracking-tighter uppercase mb-6 reveal active">ABOUT US</h1>
+                            <p className="text-[10px] tracking-[0.5em] text-gray-400 uppercase font-mono reveal active" style={{ transitionDelay: '0.2s' }}>Who we are / Company</p>
+                        </div>
+                    </section>
+
+                    {/* Message from CEO */}
+                    <section className="py-32 px-6 md:px-12 bg-white relative">
+                        <div className="max-w-4xl mx-auto">
+                            <div ref={addToRefs} className="mb-20 text-center reveal">
+                                <h2 className="text-[10px] uppercase tracking-[0.5em] text-gray-400 mb-6 font-mono">Message</h2>
+                                <h3 className="text-4xl md:text-5xl font-bold tracking-tighter">代表挨拶</h3>
+                            </div>
+
+                            <div ref={addToRefs} className="space-y-10 text-gray-600 font-light leading-loose text-lg md:text-xl reveal">
+                                <p className="relative">
+                                    <span className="absolute -left-8 -top-6 text-6xl text-gray-100 font-serif leading-none">"</span>
+                                    IT営業の最前線で、WEBが「経費」として外部に依存し続ける現状を目の当たりにしてきました。
+                                </p>
+                                <p>
+                                    私は<strong>「ITの民主化」</strong>を掲げ、経営者が自ら価値を磨き、積み上げる「デジタル資産形成」を支援します。
+                                </p>
+                                <p className="text-2xl font-bold text-black border-l-4 border-black pl-6 my-12 py-2">
+                                    誰にも邪魔されない御社独自の「城」を<br className="hidden md:block" />築き上げましょう。
+                                </p>
+                                <p>
+                                    事業への想いを、永続する資産へ。
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Company Information */}
+                    <section className="py-32 px-6 md:px-12 bg-gray-50 border-t border-gray-100">
+                        <div className="max-w-4xl mx-auto">
+                            <div ref={addToRefs} className="mb-20 text-center reveal">
+                                <h2 className="text-[10px] uppercase tracking-[0.5em] text-gray-400 mb-6 font-mono">Company</h2>
+                                <h3 className="text-4xl md:text-5xl font-bold tracking-tighter uppercase italic">Company Profile</h3>
+                            </div>
+
+                            <div ref={addToRefs} className="bg-white border border-gray-100 shadow-xl reveal">
+                                <dl className="divide-y divide-gray-100">
+                                    <div className="grid grid-cols-1 md:grid-cols-3 p-8 md:p-12 hover:bg-gray-50 transition-colors">
+                                        <dt className="text-[10px] tracking-[0.3em] text-gray-400 font-bold uppercase mb-2 md:mb-0 md:pt-1">会社名</dt>
+                                        <dd className="md:col-span-2 text-xl font-medium tracking-wide">IT HUB</dd>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 p-8 md:p-12 hover:bg-gray-50 transition-colors">
+                                        <dt className="text-[10px] tracking-[0.3em] text-gray-400 font-bold uppercase mb-2 md:mb-0 md:pt-1">所在地</dt>
+                                        <dd className="md:col-span-2 text-lg text-gray-600 font-light">沖縄県内（那覇・浦添拠点）</dd>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 p-8 md:p-12 hover:bg-gray-50 transition-colors">
+                                        <dt className="text-[10px] tracking-[0.3em] text-gray-400 font-bold uppercase mb-2 md:mb-0 md:pt-1">連絡先</dt>
+                                        <dd className="md:col-span-2 text-lg text-gray-600 font-light tracking-wider "><a href="tel:07065948214" className="hover:text-black transition-colors">070-6594-8214</a></dd>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 p-8 md:p-12 hover:bg-gray-50 transition-colors">
+                                        <dt className="text-[10px] tracking-[0.3em] text-gray-400 font-bold uppercase mb-2 md:mb-0 md:pt-1">営業時間</dt>
+                                        <dd className="md:col-span-2 text-lg text-gray-600 font-light">9:00～18:00</dd>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 p-8 md:p-12 hover:bg-gray-50 transition-colors">
+                                        <dt className="text-[10px] tracking-[0.3em] text-gray-400 font-bold uppercase mb-2 md:mb-0 md:pt-1">SNS</dt>
+                                        <dd className="md:col-span-2 text-lg text-gray-600 font-light flex items-center space-x-4">
+                                            <a href="https://x.com/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center space-x-2 hover:opacity-50 transition-opacity">
+                                                <XIcon />
+                                                <span className="text-sm font-bold tracking-widest uppercase">X (Twitter)</span>
+                                            </a>
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className="bg-black text-gray-600 py-32 px-6 md:px-12">
+                        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end space-y-16 md:space-y-0">
+                            <div className="space-y-10">
+                                <div className="text-4xl font-black tracking-tighter text-white">IT HUB</div>
+                                <p className="text-[10px] tracking-[0.3em] uppercase opacity-50">© 2026 IT HUB Inc. All rights reserved.</p>
+                            </div>
+                            <div className="flex flex-col items-start md:items-end space-y-6">
+                                <a href="https://x.com/" target="_blank" rel="noopener noreferrer" className="group flex items-center space-x-4 text-white">
+                                    <span className="text-[10px] font-bold tracking-widest uppercase">Follow Updates</span>
+                                    <div className="p-3 bg-gray-900 group-hover:bg-white group-hover:text-black transition-all duration-500">
+                                        <XIcon />
+                                    </div>
+                                </a>
+                                <p className="text-[10px] tracking-widest uppercase opacity-30">Designed for Future Sovereignty</p>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        // Render the App
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
