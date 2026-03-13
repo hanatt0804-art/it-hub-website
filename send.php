@@ -1,6 +1,6 @@
 <?php
 // 文字化け対策
-mb_language("Japanese");
+mb_language("uni");
 mb_internal_encoding("UTF-8");
 
 // 管理者の受信先メールアドレス（IT HUBの連絡先）
@@ -73,12 +73,14 @@ Mail： info@it-hub.biz
 EOM;
 
 // メールヘッダー情報（管理者通知用）
-$admin_headers = "From: " . mb_encode_mimeheader("IT HUB") . " <" . $to . ">\r\n";
+$admin_headers = "MIME-Version: 1.0\r\n";
+$admin_headers .= "From: " . mb_encode_mimeheader("IT HUB") . " <" . $to . ">\r\n";
 $admin_headers .= "Reply-To: " . $email . "\r\n";
 $admin_headers .= "Content-Type: text/plain; charset=UTF-8";
 
 // メールヘッダー情報（お客様自動返信用）
-$user_headers = "From: " . mb_encode_mimeheader("IT HUB") . " <" . $to . ">\r\n";
+$user_headers = "MIME-Version: 1.0\r\n";
+$user_headers .= "From: " . mb_encode_mimeheader("IT HUB") . " <" . $to . ">\r\n";
 $user_headers .= "Reply-To: " . $to . "\r\n";
 $user_headers .= "Content-Type: text/plain; charset=UTF-8";
 
