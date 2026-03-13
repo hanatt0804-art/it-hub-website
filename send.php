@@ -72,14 +72,20 @@ Mail： info@it-hub.biz
 ==================================================
 EOM;
 
-// メールヘッダー情報
-$headers = "From: " . $to . "\r\n";
-$headers .= "Reply-To: " . $email . "\r\n";
-$headers .= "Content-Type: text/plain; charset=UTF-8";
+// メールヘッダー情報（管理者通知用）
+$admin_headers = "From: " . mb_encode_mimeheader("IT HUB") . " <" . $to . ">\r\n";
+$admin_headers .= "Reply-To: " . $email . "\r\n";
+$admin_headers .= "Content-Type: text/plain; charset=UTF-8";
+
+// メールヘッダー情報（お客様自動返信用）
+$user_headers = "From: " . mb_encode_mimeheader("IT HUB") . " <" . $to . ">\r\n";
+$user_headers .= "Reply-To: " . $to . "\r\n";
+$user_headers .= "Content-Type: text/plain; charset=UTF-8";
 
 // メールの送信処理
-$admin_send_result = mb_send_mail($to, $admin_subject, $admin_body, $headers); // 管理者へ送信
-$user_send_result = mb_send_mail($email, $user_subject, $user_body, "From: " . $to); // お客様へ自動返信
+// 第5引数に -f オプションを指定することで、Lolipop等での到達率を向上させます
+$admin_send_result = mb_send_mail($to, $admin_subject, $admin_body, $admin_headers, "-f " . $to);
+$user_send_result = mb_send_mail($email, $user_subject, $user_body, $user_headers, "-f " . $to);
 
 // 送信成功時にサンキューページへリダイレクト
 if ($admin_send_result && $user_send_result) {
