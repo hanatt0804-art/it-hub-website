@@ -19,4 +19,4 @@ jobs:
         server: ftp.lolipop.jp         # ★【重要】先ほどメモしたFTPSサーバー名に変更してください
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: /                  # ★【重要】ロリポップの公開先フォルダを指定します（よくわからなければ "/" のままで試してみてください）
+        server-dir: ./it-hub/                 # ★【重要】ロリポップの公開先フォルダを指定します（よくわからなければ "/" のままで試してみてください）
