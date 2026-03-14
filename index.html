@@ -203,6 +203,29 @@
                 }
             }, [isMenuOpen]);
 
+            // ハッシュ付きURLでのアクセス時に対象セクションへスクロール
+            useEffect(() => {
+                const scrollToHash = () => {
+                    const hash = window.location.hash;
+                    if (!hash) return;
+                    const target = document.querySelector(hash);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                };
+
+                // 初回マウント時（React描画完了後）に一度実行
+                const timeoutId = setTimeout(scrollToHash, 300);
+
+                // ハッシュ変更時にも対応
+                window.addEventListener('hashchange', scrollToHash);
+
+                return () => {
+                    clearTimeout(timeoutId);
+                    window.removeEventListener('hashchange', scrollToHash);
+                };
+            }, []);
+
             const addToRefs = (el) => {
                 if (el && !revealRefs.current.includes(el)) {
                     revealRefs.current.push(el);
