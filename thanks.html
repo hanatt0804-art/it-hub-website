@@ -111,13 +111,13 @@
                 { name: 'ABOUT', href: 'about.html' },
                 { name: 'WORKS', href: 'works.html' },
                 { name: 'BLOG', href: 'blog.html' },
-                { name: 'CONTACT', href: 'index.html#contact' }
+                { name: 'CONTACT', href: '/#contact' }
             ];
 
             return (
                 <div className="min-h-screen flex flex-col justify-between overflow-x-hidden">
                     {/* Navigation */}
-                    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 px-6 py-4 md:px-12 flex justify-between items-center ${isScrolled || isMenuOpen ? 'bg-white/90 backdrop-blur-xl border-b border-gray-100 py-4 shadow-sm' : 'bg-transparent py-10'}`}>
+                    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 px-6 py-4 md:px-12 flex justify-between items-center ${isScrolled || isMenuOpen ? 'bg-white/90 backdrop-blur-xl border-b border-gray-100 py-4 shadow-sm' : 'bg-white/90 backdrop-blur-xl border-b border-gray-100 py-10'}`}>
                         <a href="index.html" className="flex items-center relative z-50">
                             <img src="./images/logo.png" alt="IT HUB" className="h-10 md:h-14 w-auto -ml-3" />
                         </a>
@@ -161,6 +161,22 @@
                                             </a>
                                         </div>
                                     ))}
+
+                                    {/* Xリンク（テキスト） */}
+                                    <div
+                                        className={`transform transition-all duration-500 ${isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+                                        style={{ transitionDelay: `${navItems.length * 100}ms` }}
+                                    >
+                                        <a
+                                            href="https://x.com/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="text-4xl font-bold tracking-tighter uppercase transition-colors text-gray-400 hover:text-black"
+                                        >
+                                            X
+                                        </a>
+                                    </div>
                                 </div>
                                 
                                 <div className={`mt-20 transform transition-all duration-700 delay-500 ${isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
